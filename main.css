@@ -1,0 +1,15 @@
+.circle {
+    width: 100px;
+    margin: 10px;
+    height: 100px;
+    border-radius: 50%;
+    border: 1px solid black;
+}
+
+#arrow {
+    font-size: 50px;
+}
+
+th {
+    height: 50px;
+}
