@@ -1,59 +1,32 @@
+/*
+import {Game} from "./src/Game";
+import {Board} from "./src/Board";
+
 let numberOfRows = 6;
 let numberOfColumns = 7;
 let tableHeads = document.getElementsByTagName("th");
 let imageElement = `<i id="arrow" class="fas fa-arrow-down"></i>`;
 let circles = document.getElementsByClassName("circle");
+let rows = Array.from(document.getElementsByTagName("tr"));
+rows.splice(0, 1); //Remove first row representing arrows
 let yellowPlays = true;
 
+
+Board board = new Board(circles, rows);
+Game game = new Game();
 addEventListeners();
-
-function playMove(columnIndex) {
-    let lastEmptyCircle = getLastEmptyCirlcle(columnIndex);
-
-    while (lastEmptyCircle >= columnIndex) {
-        if (isCircleEmpty(lastEmptyCircle)) {
-            paintCircle(yellowPlays, lastEmptyCircle);
-            yellowPlays = !yellowPlays;
-            break;
-        }
-        lastEmptyCircle -= 7;
-    }
-}
-
-function getLastEmptyCirlcle(columnIndex){
-    return columnIndex + (numberOfRows - 1) * numberOfColumns;
-}
-
-function paintCircle(yellowPlays, index) {
-    if (yellowPlays) {
-        circles[index].style.backgroundColor = "yellow";
-    }
-    else {
-        circles[index].style.backgroundColor = "red";
-    }
-}
-
-function isCircleEmpty(index){
-    return circles[index].style.backgroundColor === ""
-}
-
-// function checkIfPlayerWins(indexPlayed) {
-//     if
-//
-//
-// }
 
 function addEventListeners() {
     for (let i = 0; i < circles.length; i++) {
         circles[i].innerHTML = i.toString();
-        circles[i].onmouseover = function () {
+        circles[i].onmouseover = () => {
             showArrow(i)
         };
-        circles[i].onmouseleave = function () {
+        circles[i].onmouseleave = () => {
             removeArrow(i)
         };
-        circles[i].onclick = function () {
-            playMove(getColumnIndex(i))
+        circles[i].onclick = () => {
+            Game.playMove(getColumnIndex(i))
         }
     }
 }
@@ -70,3 +43,12 @@ function getColumnIndex(positionIndex) {
     return positionIndex % numberOfColumns;
 }
 
+function getRowIndex(positionIndex) {
+    return Math.floor(positionIndex / numberOfColumns);
+}
+
+function getLastIndexInColumn(columnIndex) {
+    return columnIndex + (numberOfRows - 1) * numberOfColumns;
+}
+
+*/

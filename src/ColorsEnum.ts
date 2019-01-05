@@ -1,0 +1,4 @@
+enum ColorsEnum {
+    YELLOW,
+    RED
+}
