@@ -9,19 +9,23 @@ export class UIUtil {
 
         return new Promise((resolve, rejects) => {
             let interval = setInterval(() => {
-                if (index > columnIndex) {
-                    UIUtil.clearCircle(index - 7, board);
-                }
-                UIUtil.paintCircle(yellowPlays, index, board);
-                index += 7;
-
-                if (index === lastEmptyPlace) {
-                    UIUtil.clearCircle(index - 7, board);
-                    UIUtil.paintCircle(yellowPlays, index, board);
-                    resolve(lastEmptyPlace);
+                if (lastEmptyPlace === -1) {
+                    rejects('No more empty places');
                     clearInterval(interval);
                 }
-            }, 100);
+                else {
+                    if (index > columnIndex) {
+                        UIUtil.clearCircle(index - 7, board);
+                    }
+                    if (index === lastEmptyPlace) {
+                        UIUtil.paintCircle(yellowPlays, index, board);
+                        resolve(lastEmptyPlace);
+                        clearInterval(interval);
+                    }
+                    UIUtil.paintCircle(yellowPlays, index, board);
+                    index += 7;
+                }
+            }, 80);
         });
     }
 
@@ -45,7 +49,7 @@ export class UIUtil {
         alert(`Player ${yellowPlays ? 'Yellow' : 'Red'} wins`);
     }
 
-    static findLastEmptyPlace(columnIndex: number, board: Board): any {
+    static findLastEmptyPlace(columnIndex: number, board: Board): number {
         let lastEmptyCircle = this.getLastIndexInColumn(columnIndex);
         while (lastEmptyCircle >= columnIndex) {
             if (UIUtil.isCircleEmpty(lastEmptyCircle, board)) {
@@ -53,6 +57,7 @@ export class UIUtil {
             }
             lastEmptyCircle -= 7;
         }
+        return -1;
     }
 
     static paintCircle(yellowPlays: boolean, index: number, board: Board): void {
@@ -60,16 +65,16 @@ export class UIUtil {
     }
 
     static clearCircle(index: number, board: Board): void {
-        board.circles[index].style.backgroundColor = '';
+        board.circles[index].style.backgroundColor = 'white';
     }
 
     static isCircleEmpty(index: number, board: Board): boolean {
-        return board.circles[index].style.backgroundColor === '';
+        return board.circles[index].style.backgroundColor === 'white';
     }
 
     static getStartPositionOfDiagonal(indexPlayed: number, isMainDiagonal: boolean): Position {
         let startColIndex = UIUtil.getColumnIndex(indexPlayed);
-        let startRowIndex =  UIUtil.getRowIndex(indexPlayed);
+        let startRowIndex = UIUtil.getRowIndex(indexPlayed);
         while (startRowIndex > 0 && (isMainDiagonal ? startColIndex > 0 :
                                 startColIndex < Board.numberOfColumns - 1))
         {
@@ -93,5 +98,13 @@ export class UIUtil {
         if (isMainDiagonal)
             return startIndex + (Board.numberOfColumns + 1) * (diagonalLength - 1);
         return startIndex + (Board.numberOfColumns - 1) * (diagonalLength - 1)
+    }
+
+    static showArrow(index: number, tableHeads: HTMLCollection, imageElement: string): void {
+        tableHeads[UIUtil.getColumnIndex(index)].innerHTML = imageElement;
+    }
+
+    static removeArrow(index: number, tableHeads: HTMLCollection): void {
+        tableHeads[UIUtil.getColumnIndex(index)].innerHTML = '';
     }
 }

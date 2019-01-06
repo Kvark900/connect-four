@@ -27,12 +27,12 @@ export class Game {
                     }
                     this._yellowPlays = !this._yellowPlays;
                 }
-            );
+            ).catch(reason => alert(reason));
     }
 
     restartGame(): void {
         for (let circle of this._board.circles) {
-            circle.style.backgroundColor = '';
+            circle.style.backgroundColor = 'white';
         }
         this._yellowPlays = !this._yellowPlays;
     }
