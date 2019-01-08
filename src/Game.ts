@@ -29,7 +29,7 @@ export class Game {
                             return this.restartGame();
                         }
                         else {
-                            this._board.grid.style.pointerEvents = "none";
+                            UIUtil.disableGameAction(this.board.grid)
                         }
 
                     }
@@ -49,7 +49,7 @@ export class Game {
     }
 
     newGame(mode: string): void {
-        this._board.grid.style.pointerEvents = "auto";
+        UIUtil.enableGameAction(this.board.grid)
         UIUtil.clearBoard(this.board);
         if (mode === "VSHUMAN") {
             this.mode = Mode.VSHUMAN;

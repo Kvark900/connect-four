@@ -126,4 +126,12 @@ export class UIUtil {
             circle.style.backgroundColor = 'white';
         }
     }
+
+    static disableGameAction(gameBoard: HTMLTableElement): void {
+        gameBoard.style.pointerEvents = "none";
+    }
+
+    static enableGameAction(gameBoard: HTMLTableElement): void {
+        gameBoard.style.pointerEvents = "auto";
+    }
 }
