@@ -4,6 +4,10 @@
     justify-content: center;
 }
 
+.player-radios{
+    padding-left: 50px !important;
+}
+
 #game-board {
 }
 
