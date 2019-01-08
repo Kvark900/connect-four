@@ -3,15 +3,19 @@ import {Position} from './Position';
 
 export class UIUtil {
 
+    static waitDropToFinish = false;
+
     static dropCircle(yellowPlays: boolean, columnIndex: number, board: Board): Promise<number> {
         let lastEmptyPlace = UIUtil.findLastEmptyPlace(columnIndex, board);
         let index = columnIndex;
 
         return new Promise((resolve, rejects) => {
             let interval = setInterval(() => {
+                this.waitDropToFinish = true;
                 if (lastEmptyPlace === -1) {
                     rejects('No more empty places');
                     clearInterval(interval);
+                    this.waitDropToFinish = false;
                 }
                 else {
                     if (index > columnIndex) {
@@ -21,6 +25,7 @@ export class UIUtil {
                         UIUtil.paintCircle(yellowPlays, index, board);
                         resolve(lastEmptyPlace);
                         clearInterval(interval);
+                        this.waitDropToFinish = false;
                     }
                     UIUtil.paintCircle(yellowPlays, index, board);
                     index += 7;
@@ -76,8 +81,7 @@ export class UIUtil {
         let startColIndex = UIUtil.getColumnIndex(indexPlayed);
         let startRowIndex = UIUtil.getRowIndex(indexPlayed);
         while (startRowIndex > 0 && (isMainDiagonal ? startColIndex > 0 :
-                                startColIndex < Board.numberOfColumns - 1))
-        {
+            startColIndex < Board.numberOfColumns - 1)) {
             isMainDiagonal ? startColIndex -= 1 : startColIndex += 1;
             startRowIndex -= 1
         }
@@ -106,5 +110,20 @@ export class UIUtil {
 
     static removeArrow(index: number, tableHeads: HTMLCollection): void {
         tableHeads[UIUtil.getColumnIndex(index)].innerHTML = '';
+    }
+
+    static getModeType(modetypes: HTMLInputElement[]): string {
+        for (let i in modetypes) {
+            if (modetypes[i].checked) {
+                return modetypes[i].value;
+            }
+        }
+        return "";
+    }
+
+    static clearBoard(board: Board): void {
+        for (let circle of board.circles) {
+            circle.style.backgroundColor = 'white';
+        }
     }
 }

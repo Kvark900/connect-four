@@ -1,3 +1,17 @@
+#container {
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+#game-board {
+}
+
+#game-command-panel {
+    padding: 10px 100px 10px 10px;
+    width: 500px;
+}
+
 #game-table {
     background-color: #03C03C;
 }
@@ -15,5 +29,10 @@
 }
 
 th {
-    height: 50px;
+    height: 55px;
+    text-align: center !important;
+}
+
+.nav-link{
+    cursor: default;
 }
