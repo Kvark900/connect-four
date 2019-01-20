@@ -1,5 +1,6 @@
 import {Board} from './Board';
 import {Position} from './Position';
+import {ColorsEnum} from "./ColorsEnum";
 
 export class UIUtil {
 
@@ -121,6 +122,15 @@ export class UIUtil {
         return "";
     }
 
+    static getPlayerColor(playerColor: HTMLInputElement[]): string {
+        for (let color of playerColor) {
+            if (color.checked) {
+                return color.value;
+            }
+        }
+        return "";
+    }
+
     static clearBoard(board: Board): void {
         for (let circle of board.circles) {
             circle.style.backgroundColor = 'white';
@@ -133,5 +143,13 @@ export class UIUtil {
 
     static enableGameAction(gameBoard: HTMLTableElement): void {
         gameBoard.style.pointerEvents = "auto";
+    }
+
+    static getColorOfAIPlayer(): ColorsEnum {
+        let playerRadios = Array.prototype.slice.call(document.getElementsByName("player-radio"));
+        if (UIUtil.getPlayerColor(playerRadios) === ColorsEnum[ColorsEnum.RED]) {
+            return ColorsEnum.YELLOW
+        }
+        return ColorsEnum.RED;
     }
 }

@@ -3,16 +3,24 @@ import {GameLogicImpl} from './GameLogicImpl';
 import {Board} from './Board';
 import {UIUtil} from './UIUtil';
 import {Mode} from "./Mode";
+import {ColorsEnum} from "./ColorsEnum";
 
 export class Game {
     private _board: Board;
-    private _yellowPlays: boolean;
+    private _yellowPlaysNext: boolean;
+    private _yellowPlaysFirst: boolean;
     private _gameLogic: GameLogic;
     private _mode: Mode;
+    private _computerColor = ColorsEnum.NONE;
 
-    constructor(mode: Mode, yellowPlays: boolean, board: Board) {
+    constructor(mode: Mode, yellowPlaysFirst: boolean, board: Board) {
+        if (mode === Mode.VSCOMPUTER) {
+            this._computerColor = UIUtil.getColorOfAIPlayer();
+            this.playAiMove()
+        }
         this._mode = mode;
-        this._yellowPlays = yellowPlays;
+        this._yellowPlaysNext = yellowPlaysFirst;
+        this._yellowPlaysFirst = yellowPlaysFirst;
         this._board = board;
         this._gameLogic = new GameLogicImpl(this);
     }
@@ -21,40 +29,58 @@ export class Game {
         if (UIUtil.waitDropToFinish === true) {
             return
         }
-        UIUtil.dropCircle(this._yellowPlays, columnIndex, this._board)
+        UIUtil.dropCircle(this._yellowPlaysNext, columnIndex, this._board)
             .then((lastEmptyPlace: number) => {
                     if (this._gameLogic.playerWins(lastEmptyPlace)) {
-                        UIUtil.announceWinner(this._yellowPlays);
+                        UIUtil.announceWinner(this._yellowPlaysNext);
                         if (UIUtil.askForNewGame()) {
                             return this.restartGame();
                         }
                         else {
-                            UIUtil.disableGameAction(this.board.grid)
+                            UIUtil.disableGameAction(this.board.grid);
+                            return;
                         }
-
                     }
-                    this._yellowPlays = !this._yellowPlays;
+                    this._yellowPlaysNext = !this._yellowPlaysNext;
+
+                    if (this.mode === Mode.VSCOMPUTER)
+                        this.playAiMove()
                 }
             ).catch(reason => alert(reason));
     }
 
-
-    playAiMove(): number {
-        return Math.floor(Math.random() * (Board.numberOfColumns + 1));
+    playAiMove(): void {
+        let aIMove = Math.floor(Math.random() * (Board.numberOfColumns));
+        if (this.yellowPlaysNext && this._computerColor === ColorsEnum.YELLOW) {
+            this.playMove(aIMove);
+        }
+        else if (!this.yellowPlaysNext && this._computerColor === ColorsEnum.RED) {
+            this.playMove(aIMove);
+        }
     }
 
     restartGame(): void {
         UIUtil.clearBoard(this.board);
-        this._yellowPlays = !this._yellowPlays;
+        this._yellowPlaysFirst = !this._yellowPlaysFirst;
+        this._yellowPlaysNext = this._yellowPlaysFirst;
+        if (Mode.VSCOMPUTER)
+            this.playAiMove();
     }
 
     newGame(mode: string): void {
-        UIUtil.enableGameAction(this.board.grid)
+        UIUtil.enableGameAction(this.board.grid);
         UIUtil.clearBoard(this.board);
+        this._yellowPlaysFirst = true;
+        this._yellowPlaysNext = true;
+
         if (mode === "VSHUMAN") {
             this.mode = Mode.VSHUMAN;
         }
-        else this.mode = Mode.VSCOMPUTER
+        else {
+            this.mode = Mode.VSCOMPUTER;
+            this._computerColor = UIUtil.getColorOfAIPlayer();
+            this.playAiMove();
+        }
     }
 
     get board(): Board {
@@ -65,12 +91,12 @@ export class Game {
         this._board = value;
     }
 
-    get yellowPlays(): boolean {
-        return this._yellowPlays;
+    get yellowPlaysNext(): boolean {
+        return this._yellowPlaysNext;
     }
 
-    set yellowPlays(value: boolean) {
-        this._yellowPlays = value;
+    set yellowPlaysNext(value: boolean) {
+        this._yellowPlaysNext = value;
     }
 
     get gameLogic(): GameLogic {
@@ -88,7 +114,6 @@ export class Game {
     set mode(value: Mode) {
         this._mode = value;
     }
-
 }
 
 

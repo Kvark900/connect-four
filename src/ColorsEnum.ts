@@ -1,4 +1,5 @@
-enum ColorsEnum {
+export enum ColorsEnum {
     YELLOW,
-    RED
+    RED,
+    NONE
 }

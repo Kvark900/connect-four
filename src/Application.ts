@@ -47,6 +47,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 displayMenuContent(navLinks[i].id)
             }
         }
+
+        (<HTMLInputElement>document.getElementById("computer-radio")).onchange = () => {
+            (<HTMLInputElement>document.getElementsByName("player-radio")[0]).disabled = false;
+            (<HTMLInputElement>document.getElementsByName("player-radio")[1]).disabled = false;
+
+        };
+
+        (<HTMLInputElement>document.getElementById("human-radio")).onchange = () => {
+            (<HTMLInputElement>document.getElementsByName("player-radio")[0]).disabled = true;
+            (<HTMLInputElement>document.getElementsByName("player-radio")[0]).checked = false;
+            (<HTMLInputElement>document.getElementsByName("player-radio")[1]).disabled = true;
+            (<HTMLInputElement>document.getElementsByName("player-radio")[1]).checked = false;
+        };
+
     }
     
     function displayMenuContent(id: string): void {
@@ -78,6 +92,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-
-
 });
