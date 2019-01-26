@@ -1,7 +1,8 @@
-import {Game} from "./Game";
-import {Board} from "./Board";
-import {UIUtil} from './UIUtil';
-import {Mode} from "./Mode"
+import {Game} from "./game/Game";
+import {Board} from "./game/Board";
+import {UIUtil} from './utils/UIUtil';
+import {ModeEnum} from "./ModeEnum"
+import {MatrixUtil} from "./utils/MatrixUtil";
 
 document.addEventListener('DOMContentLoaded', () => {
     let tableHeads = document.getElementsByTagName("th");
@@ -20,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let menuContent = document.getElementById("menu-content");
 
     let board = new Board(gameTable, circles, rows);
-    let game = new Game(Mode.VSHUMAN, board, true);
+    let game = new Game(ModeEnum.VSHUMAN, board, true);
     addEventListeners();
     displayMenuContent("new-game-tab");
 
@@ -34,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 UIUtil.removeArrow(i, tableHeads)
             };
             (circles[i]).onclick = () => {
-                game.playMove(UIUtil.getColumnIndex(i))
+                game.playMove(MatrixUtil.getColumnIndex(i))
             }
         }
 

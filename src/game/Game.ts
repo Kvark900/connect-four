@@ -1,25 +1,25 @@
 import {GameLogic} from './GameLogic';
 import {GameLogicImpl} from './GameLogicImpl';
 import {Board} from './Board';
-import {UIUtil} from './UIUtil';
-import {Mode} from "./Mode";
-import {ColorsEnum} from "./ColorsEnum";
+import {UIUtil} from '../utils/UIUtil';
+import {ModeEnum} from "../ModeEnum";
+import {ColorsEnum} from "../ColorsEnum";
 
 export class Game {
     private _board: Board;
     private _gameLogic: GameLogic;
-    private _mode: Mode;
+    private _mode: ModeEnum;
     private _yellowPlaysNext: boolean;
     private _yellowPlaysFirst: boolean;
     private _computerColor = ColorsEnum.NONE;
 
-    constructor(mode: Mode, board: Board, yellowPlaysFirst: boolean) {
+    constructor(mode: ModeEnum, board: Board, yellowPlaysFirst: boolean) {
         this._mode = mode;
         this._yellowPlaysNext = yellowPlaysFirst;
         this._yellowPlaysFirst = yellowPlaysFirst;
         this._board = board;
         this._gameLogic = new GameLogicImpl(this);
-        if (mode === Mode.VSCOMPUTER) {
+        if (mode === ModeEnum.VSCOMPUTER) {
             this._computerColor = UIUtil.getColorOfAIPlayer();
             this.playAiMove()
         }
@@ -43,7 +43,7 @@ export class Game {
                     }
                     this._yellowPlaysNext = !this._yellowPlaysNext;
 
-                    if (this.mode === Mode.VSCOMPUTER)
+                    if (this.mode === ModeEnum.VSCOMPUTER)
                         this.playAiMove()
                 }
             ).catch(reason => alert(reason));
@@ -63,7 +63,7 @@ export class Game {
         UIUtil.clearBoard(this.board);
         this._yellowPlaysFirst = !this._yellowPlaysFirst;
         this._yellowPlaysNext = this._yellowPlaysFirst;
-        if (Mode.VSCOMPUTER)
+        if (ModeEnum.VSCOMPUTER)
             this.playAiMove();
     }
 
@@ -74,10 +74,10 @@ export class Game {
         this._yellowPlaysNext = true;
 
         if (mode === "VSHUMAN") {
-            this.mode = Mode.VSHUMAN;
+            this.mode = ModeEnum.VSHUMAN;
         }
         else {
-            this.mode = Mode.VSCOMPUTER;
+            this.mode = ModeEnum.VSCOMPUTER;
             this._computerColor = UIUtil.getColorOfAIPlayer();
             this.playAiMove();
         }
@@ -107,11 +107,11 @@ export class Game {
         this._gameLogic = value;
     }
 
-    get mode(): Mode {
+    get mode(): ModeEnum {
         return this._mode;
     }
 
-    set mode(value: Mode) {
+    set mode(value: ModeEnum) {
         this._mode = value;
     }
 }
