@@ -1,6 +1,4 @@
 import {Game} from './Game';
-import {Board} from './Board';
-import {UIUtil} from './UIUtil';
 
 export abstract class GameLogic {
 

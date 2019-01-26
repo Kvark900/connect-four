@@ -1,6 +1,7 @@
 import {Board} from './Board';
 import {Position} from './Position';
 import {ColorsEnum} from "./ColorsEnum";
+import {Mode} from "./Mode";
 
 export class UIUtil {
 
@@ -114,9 +115,9 @@ export class UIUtil {
     }
 
     static getModeType(modetypes: HTMLInputElement[]): string {
-        for (let i in modetypes) {
-            if (modetypes[i].checked) {
-                return modetypes[i].value;
+        for (const modetype of modetypes) {
+            if (modetype.checked) {
+                return modetype.value;
             }
         }
         return "";

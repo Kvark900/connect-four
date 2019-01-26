@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let menuContent = document.getElementById("menu-content");
 
     let board = new Board(gameTable, circles, rows);
-    let game = new Game(Mode.VSHUMAN, true, board);
+    let game = new Game(Mode.VSHUMAN, board, true);
     addEventListeners();
     displayMenuContent("new-game-tab");
 

@@ -7,22 +7,22 @@ import {ColorsEnum} from "./ColorsEnum";
 
 export class Game {
     private _board: Board;
-    private _yellowPlaysNext: boolean;
-    private _yellowPlaysFirst: boolean;
     private _gameLogic: GameLogic;
     private _mode: Mode;
+    private _yellowPlaysNext: boolean;
+    private _yellowPlaysFirst: boolean;
     private _computerColor = ColorsEnum.NONE;
 
-    constructor(mode: Mode, yellowPlaysFirst: boolean, board: Board) {
-        if (mode === Mode.VSCOMPUTER) {
-            this._computerColor = UIUtil.getColorOfAIPlayer();
-            this.playAiMove()
-        }
+    constructor(mode: Mode, board: Board, yellowPlaysFirst: boolean) {
         this._mode = mode;
         this._yellowPlaysNext = yellowPlaysFirst;
         this._yellowPlaysFirst = yellowPlaysFirst;
         this._board = board;
         this._gameLogic = new GameLogicImpl(this);
+        if (mode === Mode.VSCOMPUTER) {
+            this._computerColor = UIUtil.getColorOfAIPlayer();
+            this.playAiMove()
+        }
     }
 
     playMove(columnIndex: number): void {
@@ -50,7 +50,7 @@ export class Game {
     }
 
     playAiMove(): void {
-        let aIMove = Math.floor(Math.random() * (Board.numberOfColumns));
+        let aIMove = Math.floor(Math.random() * Board.numberOfColumns);
         if (this.yellowPlaysNext && this._computerColor === ColorsEnum.YELLOW) {
             this.playMove(aIMove);
         }
