@@ -1,8 +1,9 @@
 import {Board} from '../game/Board';
 import {ColorsEnum} from "../ColorsEnum";
-import {MatrixUtil} from "./MatrixUtil";
+import {MatrixMath} from "./MatrixMath";
 
 export class UIUtil {
+    private constructor(){}
 
     static waitDropToFinish = false;
 
@@ -44,7 +45,7 @@ export class UIUtil {
     }
 
     static findLastEmptyPlace(columnIndex: number, board: Board): number {
-        let lastEmptyCircle = MatrixUtil.getLastIndexInColumn(columnIndex);
+        let lastEmptyCircle = MatrixMath.getLastIndexInColumn(columnIndex);
         while (lastEmptyCircle >= columnIndex) {
             if (UIUtil.isCircleEmpty(lastEmptyCircle, board)) {
                 return lastEmptyCircle;
@@ -67,11 +68,11 @@ export class UIUtil {
     }
 
     static showArrow(index: number, tableHeads: HTMLCollection, imageElement: string): void {
-        tableHeads[MatrixUtil.getColumnIndex(index)].innerHTML = imageElement;
+        tableHeads[MatrixMath.getColumnIndex(index)].innerHTML = imageElement;
     }
 
     static removeArrow(index: number, tableHeads: HTMLCollection): void {
-        tableHeads[MatrixUtil.getColumnIndex(index)].innerHTML = '';
+        tableHeads[MatrixMath.getColumnIndex(index)].innerHTML = '';
     }
 
     static getModeType(modetypes: HTMLInputElement[]): string {

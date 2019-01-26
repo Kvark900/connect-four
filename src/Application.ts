@@ -2,7 +2,7 @@ import {Game} from "./game/Game";
 import {Board} from "./game/Board";
 import {UIUtil} from './utils/UIUtil';
 import {ModeEnum} from "./ModeEnum"
-import {MatrixUtil} from "./utils/MatrixUtil";
+import {MatrixMath} from "./utils/MatrixMath";
 
 document.addEventListener('DOMContentLoaded', () => {
     let tableHeads = document.getElementsByTagName("th");
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 UIUtil.removeArrow(i, tableHeads)
             };
             (circles[i]).onclick = () => {
-                game.playMove(MatrixUtil.getColumnIndex(i))
+                game.playMove(MatrixMath.getColumnIndex(i))
             }
         }
 

@@ -1,6 +1,6 @@
 import {GameLogic} from './GameLogic';
 import {Board} from './Board';
-import {MatrixUtil} from "../utils/MatrixUtil";
+import {MatrixMath} from "../utils/MatrixMath";
 import {Game} from "./Game";
 
 export class GameLogicImpl extends GameLogic {
@@ -12,10 +12,10 @@ export class GameLogicImpl extends GameLogic {
     }
 
     winsDiagonally(indexPlayed: number, isMainDiagonal: boolean): boolean {
-        let diagStart = MatrixUtil.getStartPositionOfDiagonal(indexPlayed, isMainDiagonal);
-        let diagLength = MatrixUtil.getLengthOfDiagonal(diagStart.rowIndex, diagStart.columnIndex, isMainDiagonal);
-        let startIndex = MatrixUtil.getIndex(diagStart.rowIndex, diagStart.columnIndex);
-        let lastIndex = MatrixUtil.getLastIndexInDiagonal(startIndex, diagLength, isMainDiagonal);
+        let diagStart = MatrixMath.getStartPositionOfDiagonal(indexPlayed, isMainDiagonal);
+        let diagLength = MatrixMath.getLengthOfDiagonal(diagStart.rowIndex, diagStart.columnIndex, isMainDiagonal);
+        let startIndex = MatrixMath.getIndex(diagStart.rowIndex, diagStart.columnIndex);
+        let lastIndex = MatrixMath.getLastIndexInDiagonal(startIndex, diagLength, isMainDiagonal);
         let offset = isMainDiagonal ? Board.numberOfColumns + 1 : Board.numberOfColumns - 1;
         loop:
             for (let i = startIndex; i <= lastIndex - (offset * 3); i += offset) {
@@ -34,8 +34,8 @@ export class GameLogicImpl extends GameLogic {
     }
 
     protected winsVertically(indexPlayed: number): boolean {
-        let columnIndex = MatrixUtil.getColumnIndex(indexPlayed);
-        let lastIndex = MatrixUtil.getLastIndexInColumn(columnIndex);
+        let columnIndex = MatrixMath.getColumnIndex(indexPlayed);
+        let lastIndex = MatrixMath.getLastIndexInColumn(columnIndex);
         let numOfCols = Board.numberOfColumns;
         let circles = this._game.board.circles;
         loop:
@@ -56,7 +56,7 @@ export class GameLogicImpl extends GameLogic {
     }
 
     protected winsHorizontally(indexPlayed: number): boolean {
-        let rowIndex = MatrixUtil.getRowIndex(indexPlayed);
+        let rowIndex = MatrixMath.getRowIndex(indexPlayed);
         let circlesInRow = this._game.board.rows[rowIndex].getElementsByClassName('circle');
         loop:
             for (let i = 0; i < Board.numberOfColumns; i++) {

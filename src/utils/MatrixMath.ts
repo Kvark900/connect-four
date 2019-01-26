@@ -1,7 +1,9 @@
 import {Board} from "../game/Board";
 import {Position} from "../Position";
 
-export class MatrixUtil {
+export  class MatrixMath {
+    private constructor(){}
+
     static getColumnIndex(positionIndex: number): number {
         return positionIndex % Board.numberOfColumns;
     }
@@ -15,8 +17,8 @@ export class MatrixUtil {
     }
 
     static getStartPositionOfDiagonal(indexPlayed: number, isMainDiagonal: boolean): Position {
-        let startColIndex = MatrixUtil.getColumnIndex(indexPlayed);
-        let startRowIndex = MatrixUtil.getRowIndex(indexPlayed);
+        let startColIndex = MatrixMath.getColumnIndex(indexPlayed);
+        let startRowIndex = MatrixMath.getRowIndex(indexPlayed);
         while (startRowIndex > 0 && (isMainDiagonal ? startColIndex > 0 :
             startColIndex < Board.numberOfColumns - 1)) {
             isMainDiagonal ? startColIndex -= 1 : startColIndex += 1;
