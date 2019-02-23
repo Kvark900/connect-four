@@ -19,8 +19,7 @@ export  class MatrixMath {
     static getStartPositionOfDiagonal(indexPlayed: number, isMainDiagonal: boolean): Position {
         let startColIndex = MatrixMath.getColumnIndex(indexPlayed);
         let startRowIndex = MatrixMath.getRowIndex(indexPlayed);
-        while (startRowIndex > 0 && (isMainDiagonal ? startColIndex > 0 :
-            startColIndex < Board.numberOfColumns - 1)) {
+        while (startRowIndex > 0 && (isMainDiagonal ? startColIndex > 0 : startColIndex < Board.numberOfColumns - 1)) {
             isMainDiagonal ? startColIndex -= 1 : startColIndex += 1;
             startRowIndex -= 1
         }
